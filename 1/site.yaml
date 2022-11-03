@@ -1,0 +1,45 @@
+---
+- hosts: localhost
+  remote_user: root
+  tasks:
+  - name: Update repositories and install docker dependencies
+    apt:
+      pkg:
+        - ca-certificates
+        - curl
+        - gnupg
+        - apt-transport-https
+        - gnupg-agent
+        - software-properties-common
+      update_cache: true
+  - name: Add GPG key
+    apt_key:
+      url: https://download.docker.com/linux/ubuntu/gpg
+      state: present
+  - name: Add docker repository to apt
+    apt_repository:
+      repo: deb https://download.docker.com/linux/ubuntu jammy stable
+      state: present
+  - name: install docker
+    apt:
+      state: present
+      name: docker
+      update_cache: true
+    loop:
+      - docker-ce
+      - docker-ce-cli
+      - containerd.io
+  - name: check docker is active
+    service:
+      name: docker
+      state: started
+      enabled: true
+  - name: Ensure group "docker" exists
+    ansible.builtin.group:
+      name: docker
+      state: present
+  - name: Adding manu to docker group
+    user:
+      name: manu
+      groups: docker
+      append: true

@@ -1,0 +1,1 @@
+# Dockerfile for the weather reporting application.

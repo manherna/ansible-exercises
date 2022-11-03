@@ -1,6 +1,5 @@
 ---
 - hosts: localhost
-  remote_user: root
   tasks:
   - name: Update repositories and install docker dependencies
     apt:
@@ -38,8 +37,8 @@
     ansible.builtin.group:
       name: docker
       state: present
-  - name: Adding manu to docker group
+  - name: Adding ubuntu to docker group
     user:
-      name: manu
+      name: ubuntu
       groups: docker
       append: true

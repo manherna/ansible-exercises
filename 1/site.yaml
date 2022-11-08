@@ -28,7 +28,15 @@
       - docker-ce
       - docker-ce-cli
       - containerd.io
-  - name: check docker is active
+  - name: Creating dockerd configuration file
+    copy:
+      dest: "/etc/docker/daemon.json"
+      content: |
+        {
+          "log-driver": "syslog"
+        }
+      mode: 0644
+  - name: Check docker is active
     service:
       name: docker
       state: started

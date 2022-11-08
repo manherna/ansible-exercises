@@ -7,13 +7,10 @@ WORKDIR /app
 
 COPY ./app/ .
 
-# No need for go dependencies to install
-# RUN go mod download
-
 # Build the app
-RUN go build -o getweather
+RUN go build -o scanner
 
-ENTRYPOINT ["./getweather"]
+ENTRYPOINT ["./scanner"]
 # Leave for later upgrade
 #FROM scratch
 #COPY --from=builder /app/getweather .

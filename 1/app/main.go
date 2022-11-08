@@ -68,7 +68,7 @@ func main() {
 }
 
 // Basic HTTP GET method + conversion to our OWMResponse object. Returns a string with the required weather format
-func getWeather(apiKey string, city string) string {
+func GetWeather(apiKey string, city string) string {
 	resp, err := http.Get(fmt.Sprintf("https://api.openweathermap.org/data/2.5/weather?q=%s&APPID=%s", city, apiKey))
 	if err != nil {
 		print(err)

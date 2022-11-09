@@ -12,7 +12,7 @@ import (
 func main() {
 
 	if len(os.Args) < 2 {
-		println("Please input at least 1 IP")
+		fmt.Println("Please input at least 1 IP")
 		os.Exit(1)
 	}
 	// Expects a single host IP or a CIDR network designation
@@ -20,9 +20,8 @@ func main() {
 
 	if strings.Contains(ip, "/") {
 		ips := GetNetworkRange(ip)
-		println("CIDR range")
 		for _, i := range ips {
-			println(i)
+			fmt.Println(i)
 			ScanAllPorts(i)
 		}
 	} else {
@@ -56,7 +55,6 @@ func GetNetworkRange(cidrRange string) []string {
 }
 
 func ScanAllPorts(ip string) {
-	println(ip)
 	maxPort := 65555
 	for i := 1; i < maxPort; i++ {
 		go ScanPort(ip, i, 500*time.Millisecond)
@@ -80,5 +78,5 @@ func ScanPort(ip string, port int, timeout time.Duration) {
 	}
 
 	conn.Close()
-	fmt.Printf("* %v/tcp\tclosed\n", port)
+	fmt.Printf("* %v/tcp\topen\n", port)
 }

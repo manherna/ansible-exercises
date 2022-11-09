@@ -63,7 +63,7 @@ func main() {
 		println("no correct environment variables were given, exiting")
 		os.Exit(1)
 	}
-	println(getWeather(apiKey, city))
+	println(GetWeather(apiKey, city))
 
 }
 

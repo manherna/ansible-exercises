@@ -1,18 +1,18 @@
 # PULL Golang image
 FROM golang:1.19.3 AS builder
 
-RUN env
 # Using /app directory to store all code
 WORKDIR /app
-
+# Coping all of our code to the builder image
 COPY ./app/ .
 
 # Build the app
-RUN go build -o scanner
+# Disable CGO, using netgo tag for net package, and statically linking everythig
+RUN env CGO_ENABLED=0 go build -tags netgo -ldflags '-w -s -extldflags "-static"' -o scanner
 
-ENTRYPOINT ["./scanner"]
-# Leave for later upgrade
-#FROM scratch
-#COPY --from=builder /app/getweather .
+# Using scratch ensures minimal image footprint and risks
+FROM scratch AS final
+COPY --from=builder /app/scanner .
+
 ## Start running the app
-#CMD ["/getweather"]
+ENTRYPOINT ["./scanner"]
